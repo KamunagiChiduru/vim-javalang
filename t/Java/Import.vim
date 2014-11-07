@@ -1,5 +1,4 @@
 let s:suite= themis#suite('Java.Import')
-let s:assert= themis#helper('assert')
 
 function! s:paste(filename)
     new
@@ -24,7 +23,7 @@ function! s:suite.__adds_statements__()
 
         call s:I.add('java.util.HashMap')
 
-        call s:assert.equals(s:I.imported_classes(), [
+        call g:assert.equals(s:I.imported_classes(), [
         \   'java.io.ByteArrayInputStream',
         \   'java.io.IOException',
         \   'java.util.HashMap',
@@ -44,7 +43,7 @@ function! s:suite.__adds_statements__()
 
         call s:I.add('java.util.LinkedHashMap', 'java.util.LinkedList')
 
-        call s:assert.equals(s:I.imported_classes(), [
+        call g:assert.equals(s:I.imported_classes(), [
         \   'java.io.ByteArrayInputStream',
         \   'java.io.IOException',
         \   'java.util.LinkedHashMap',
@@ -65,8 +64,8 @@ function! s:suite.__adds_statements__()
 
         call s:I.add('java.util.Map')
 
-        call s:assert.equals(s:I.imported_classes(), ['java.util.Map'])
-        call s:assert.equals(getline(1, '$'), [
+        call g:assert.equals(s:I.imported_classes(), ['java.util.Map'])
+        call g:assert.equals(getline(1, '$'), [
         \   'package hoge;',
         \   '',
         \   'import java.util.Map;',
@@ -82,8 +81,8 @@ function! s:suite.__adds_statements__()
 
         call s:I.add('java.util.Map', 'java.util.List')
 
-        call s:assert.equals(s:I.imported_classes(), ['java.util.List', 'java.util.Map'])
-        call s:assert.equals(getline(1, '$'), [
+        call g:assert.equals(s:I.imported_classes(), ['java.util.List', 'java.util.Map'])
+        call g:assert.equals(getline(1, '$'), [
         \   'package hoge;',
         \   '',
         \   'import java.util.List;',
@@ -103,8 +102,8 @@ function! s:suite.__adds_statements__()
         \   'method': 'asList',
         \})
 
-        call s:assert.equals(s:I.imported_fields_and_methods(), ['java.util.Arrays.asList'])
-        call s:assert.equals(getline(1, '$'), [
+        call g:assert.equals(s:I.imported_fields_and_methods(), ['java.util.Arrays.asList'])
+        call g:assert.equals(getline(1, '$'), [
         \   'package hoge;',
         \   '',
         \   'import static java.util.Arrays.asList;',
@@ -124,7 +123,7 @@ function! s:suite.__removes_statements__()
 
         call s:I.remove('java.util.Map')
 
-        call s:assert.equals(s:I.imported_classes(), [
+        call g:assert.equals(s:I.imported_classes(), [
         \   'java.io.ByteArrayInputStream',
         \   'java.io.IOException',
         \   'jp.michikusa.chitose.unitejavaimport.server.request.CommonRequest',
@@ -142,7 +141,7 @@ function! s:suite.__removes_statements__()
 
         call s:I.remove('java.io.ByteArrayInputStream', 'net.arnx.jsonic.JSON')
 
-        call s:assert.equals(s:I.imported_classes(), [
+        call g:assert.equals(s:I.imported_classes(), [
         \   'java.io.IOException',
         \   'java.util.Map',
         \   'jp.michikusa.chitose.unitejavaimport.server.request.CommonRequest',
@@ -167,7 +166,7 @@ function! s:suite.__sorts_statements__()
         \   {'class': 'java.lang.Boolean', 'field': 'TRUE'},
         \)
 
-        call s:assert.equals(getline(1, '$'), [
+        call g:assert.equals(getline(1, '$'), [
         \   'package hoge;',
         \   '',
         \   'import java.util.Map;',
@@ -188,7 +187,7 @@ function! s:suite.__gets_already_imported_elements__()
     function! gets_already_imported_elements.for_classes()
         call s:paste('t/fixtures/JsonMessageDecoder.java')
 
-        call s:assert.equals(s:I.imported_classes(), [
+        call g:assert.equals(s:I.imported_classes(), [
         \   'java.io.ByteArrayInputStream',
         \   'java.io.IOException',
         \   'java.util.Map',
@@ -205,7 +204,7 @@ function! s:suite.__gets_already_imported_elements__()
     function! gets_already_imported_elements.for_fields_and_methods()
         call s:paste('t/fixtures/JsonMessageDecoder.java')
 
-        call s:assert.equals(s:I.imported_fields_and_methods(), [
+        call g:assert.equals(s:I.imported_fields_and_methods(), [
         \   'com.google.common.base.Preconditions.checkArgument',
         \])
     endfunction
@@ -217,6 +216,6 @@ function! s:suite.__tells_statements_region__()
     function! tells_statements_region.statements_have_only_classes()
         call s:paste('t/fixtures/JsonMessageDecoder.java')
 
-        call s:assert.equals(s:I.region(), [3, 17])
+        call g:assert.equals(s:I.region(), [3, 17])
     endfunction
 endfunction
